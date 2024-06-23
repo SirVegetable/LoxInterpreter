@@ -6,10 +6,14 @@
 
 class Token
 {
-    public: 
-        Token(TokenTypes t, std::string l, std::any li, int i); 
+    public:
+        
+        Token(TokenTypes tok_type, std::string lex, int j);              // Constructor for EOF when scanning
+
+        Token(TokenTypes t, std::string l, std::any li, int i);          // Default Constructor
         
         std::string convert_to_string();
+
     private: 
         TokenTypes type;
         std::string lexeme;
@@ -34,7 +38,7 @@ class Token
                 return ""; 
             }
 
-            
+
         }
 
 

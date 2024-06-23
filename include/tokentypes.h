@@ -1,4 +1,5 @@
 
+#pragma once 
 
 enum class TokenTypes
 {
@@ -18,5 +19,5 @@ enum class TokenTypes
     AND, OR, CLASS, IF, ELSE, FUN, FOR, NIL,
     PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE,
     
-    EOF
+    END
 }; 
