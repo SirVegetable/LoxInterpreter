@@ -15,9 +15,26 @@ std::vector<Token> Scanner::scan_source()
 
 void Scanner::scan_token(char c)
 {
-    
+    switch(c)
+    {
+        case '(': add_token(TokenTypes::LEFT_PAREN); break;
+        case ')': add_token(TokenTypes::RIGHT_PAREN); break;
+        case '{': add_token(TokenTypes::LEFT_BRACE); break;
+        case '}': add_token(TokenTypes::RIGHT_BRACE); break;
+        case ',': add_token(TokenTypes::COMMA); break;
+        case '.': add_token(TokenTypes::DOT); break;
+        case '+': add_token(TokenTypes::PLUS); break;
+        case '-': add_token(TokenTypes::MINUS); break;
+        case ';': add_token(TokenTypes::SEMICOLON); break;
+        case '*': add_token(TokenTypes::STAR); break;
+        
+    }
 }
 
+void Scanner::add_token(TokenTypes type)
+{
+
+}
 void Scanner::add_token(TokenTypes type, std::any literal)
 {
     tokens.emplace_back(type,source.substr(start, current), literal, line); 

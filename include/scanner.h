@@ -10,7 +10,8 @@ class Scanner
 
         std::vector<Token> scan_source();
         void scan_token(char c);
-        void add_token(TokenTypes type, std::any literal); 
+        void add_token(TokenTypes type, std::any literal);
+        void add_token(TokenTypes type); 
 
     private:
         std::string source; 
