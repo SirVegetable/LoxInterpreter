@@ -2,6 +2,7 @@
 #include "../include/token.h"
 #include "../include/tokentypes.h"
 #include <any>
+#include <cctype>
 
 std::vector<Token> Scanner::scan_source()
 {
@@ -104,3 +105,21 @@ void Scanner::is_a_string()
     add_token(TokenTypes::STRING, value); 
 }
 
+
+void Scanner::is_a_number()
+{
+    while(std::isdigit(peek())){ std::next(iter); }
+    
+    if(peek() == '.' && std::isdigit(peek_next()))
+    {
+        std::next(iter); 
+        while(std::isdigit(peek())){std::next(iter); } 
+    }
+    add_token(TokenTypes::NUMBER, DOUBLE.parsedouble(src.substr(start,current))); 
+}
+
+char Scanner::peek_next()
+{
+    if(current + 1 >= source.length()){return '\0'; }
+    return source.at(current+1); 
+}

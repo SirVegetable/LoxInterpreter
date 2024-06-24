@@ -27,7 +27,8 @@ class Scanner
         bool at_end(); 
         char peek();
         void is_a_string(); 
-        void is_a_number(); 
+        void is_a_number();
+        char peek_next(); 
 
 
 
