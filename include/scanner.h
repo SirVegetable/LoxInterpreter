@@ -17,13 +17,18 @@ class Scanner
         std::vector<Token> tokens;
         int start = 0; 
         int current = 0; 
-        int line = 1;
+        int line = 1;   
+        
 
+        // internal methods for scanning the source
         void add_token(TokenTypes type, std::any literal);
         void add_token(TokenTypes type); 
         bool match(char c);
         bool at_end(); 
-        char peek(); 
+        char peek();
+        void is_a_string(); 
+        void is_a_number(); 
+
 
 
 }; 

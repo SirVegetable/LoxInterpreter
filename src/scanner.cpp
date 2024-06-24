@@ -43,6 +43,14 @@ void Scanner::scan_token(char c)
                         add_token(TokenTypes::SLASH); 
                     }
                     break;
+        case ' ': 
+        case '\r': 
+        case '\t':
+            break;
+        case '\n':
+            line++; 
+            break;  
+        case '"': is_a_string();  break; 
 
         
     }
@@ -81,3 +89,18 @@ char Scanner::peek()
     }
     return source.at(current); 
 }
+
+void Scanner::is_a_string()
+{
+    while(peek() != '"' && !at_end())
+    {
+        if(peek() == '\n'){line++;}
+        std::next(iter); 
+    }
+    if(at_end()){/* error needs to be handled, show line occured at*/}
+    std::next(iter); 
+
+    auto value = source.substr(start + 1, current -1); 
+    add_token(TokenTypes::STRING, value); 
+}
+
