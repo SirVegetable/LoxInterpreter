@@ -23,6 +23,7 @@ class Scanner
         void add_token(TokenTypes type); 
         bool match(char c);
         bool at_end(); 
+        char peek(); 
 
 
 }; 

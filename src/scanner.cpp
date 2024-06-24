@@ -28,6 +28,23 @@ void Scanner::scan_token(char c)
         case ';': add_token(TokenTypes::SEMICOLON); break;
         case '*': add_token(TokenTypes::STAR); break;
         case '!': add_token(match('=') ? TokenTypes::BANG : TokenTypes::BANG_EQUAL); break;
+        case '=': add_token(match('=') ? TokenTypes::EQUAL_EQUAL : TokenTypes::EQUAL); break; 
+        case '<': add_token(match('=') ? TokenTypes::LESS_EQUAL : TokenTypes::LESS); break;
+        case '>': add_token(match('=') ? TokenTypes::GREATER_EQUAL : TokenTypes::GREATER); break;
+        case '/': if(match('/'))
+                    {
+                        while(peek() != '\n' && at_end())
+                        {
+                            std::next(iter); 
+                        }
+                    }
+                    else 
+                    {
+                        add_token(TokenTypes::SLASH); 
+                    }
+                    break;
+
+        
     }
 }
 
@@ -51,6 +68,16 @@ bool Scanner::match(char c)
 {
     if(at_end()) { return false; }
     if(source[current] != c ) { return false; }
+
     current++; 
     return true; 
+}
+
+char Scanner::peek()
+{
+    if(at_end())
+    {
+        return '\0'; 
+    }
+    return source.at(current); 
 }
