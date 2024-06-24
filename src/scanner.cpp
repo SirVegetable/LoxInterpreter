@@ -27,15 +27,30 @@ void Scanner::scan_token(char c)
         case '-': add_token(TokenTypes::MINUS); break;
         case ';': add_token(TokenTypes::SEMICOLON); break;
         case '*': add_token(TokenTypes::STAR); break;
-        
+        case '!': add_token(match('=') ? TokenTypes::BANG : TokenTypes::BANG_EQUAL); break;
     }
+}
+
+bool Scanner::at_end()
+{
+    if(current >= source.size()) {return true;}
+    return false; 
 }
 
 void Scanner::add_token(TokenTypes type)
 {
-
+    tokens.emplace_back(type,source.substr(start, current),line); 
 }
+
 void Scanner::add_token(TokenTypes type, std::any literal)
 {
     tokens.emplace_back(type,source.substr(start, current), literal, line); 
+}
+
+bool Scanner::match(char c)
+{
+    if(at_end()) { return false; }
+    if(source[current] != c ) { return false; }
+    current++; 
+    return true; 
 }
