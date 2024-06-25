@@ -2,7 +2,19 @@
 #include "../include/token.h"
 #include "../include/tokentypes.h"
 #include <any>
-#include <cctype>
+#include <string>
+
+Scanner::Scanner(std::string src) : source(src)
+{
+    keywords.emplace("and", TokenTypes::AND);
+    keywords.emplace("class", TokenTypes::CLASS);  
+    keywords.emplace("else", TokenTypes::ELSE); 
+    keywords.emplace("for", TokenTypes::FOR);
+    keywords.emplace("if", TokenTypes::IF);
+
+
+
+}
 
 std::vector<Token> Scanner::scan_source()
 {
@@ -123,3 +135,12 @@ char Scanner::peek_next()
     if(current + 1 >= source.length()){return '\0'; }
     return source.at(current+1); 
 }
+
+void Scanner::is_an_identifier()
+{
+    while(is_alpha_numeric(peek())) std::next(iter); 
+    add_token(TokenTypes::IDENTIFIER); 
+}
+
+
+
