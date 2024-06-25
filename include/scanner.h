@@ -26,7 +26,7 @@ class Scanner
         // internal methods for scanning the source
         void add_token(TokenTypes type, std::any literal);
         void add_token(TokenTypes type); 
-        bool match(const char& c);
+        bool match(const char& expected);
         bool at_end(); 
         char peek();
         void is_a_string(); 
@@ -35,6 +35,7 @@ class Scanner
         bool is_alpha_numeric(char c); 
         void is_an_identifier(); 
         char advance(); 
+        bool is_digit(const char& c); 
 
 
 }; 

@@ -46,18 +46,19 @@ void Scanner::scan_token()
         case '=': add_token(match('=') ? TokenTypes::EQUAL_EQUAL : TokenTypes::EQUAL); break; 
         case '<': add_token(match('=') ? TokenTypes::LESS_EQUAL : TokenTypes::LESS); break;
         case '>': add_token(match('=') ? TokenTypes::GREATER_EQUAL : TokenTypes::GREATER); break;
-        case '/': if(match('/'))
+        case '/':
+            if(match('/'))
+                {
+                    while(peek() != '\n' && !at_end())
                     {
-                        while(peek() != '\n' && at_end())
-                        {
-                            advance(); 
-                        }
+                        advance(); 
                     }
-                    else 
-                    {
-                        add_token(TokenTypes::SLASH); 
-                    }
-                    break;
+                }
+            else 
+            {
+                add_token(TokenTypes::SLASH); 
+            }
+            break;
         case ' ': 
         case '\r': 
         case '\t':
@@ -73,7 +74,7 @@ void Scanner::scan_token()
 
 bool Scanner::at_end()
 {
-    if(current >= source.size()) {return true;}
+    if(current >= source.length()) {return true;}
     return false; 
 }
 
@@ -87,11 +88,11 @@ void Scanner::add_token(TokenTypes type, std::any literal)
     tokens.emplace_back(type,source.substr(start, current), literal, line); 
 }
 
-bool Scanner::match(const char& c)
+bool Scanner::match(const char& expected)
 {
     if(at_end()) { return false; }
 
-    if(source[current] != c ) { return false; }
+    if(source[current] != expected ) { return false; }
 
     ++current; 
     return true; 
@@ -103,7 +104,7 @@ char Scanner::peek()
     {
         return '\0'; 
     }
-    return source.at(current); 
+    return source[current]; 
 }
 
 void Scanner::is_a_string()
@@ -111,11 +112,13 @@ void Scanner::is_a_string()
     while(peek() != '"' && !at_end())
     {
         if(peek() == '\n'){line++;}
-        std::next(iter); 
+        advance(); 
     }
     if(at_end()){/* error needs to be handled, show line occured at*/}
-    std::next(iter); 
+   
+    advance();
 
+    // Strip quotes for the token
     auto value = source.substr(start + 1, current -1); 
     add_token(TokenTypes::STRING, value); 
 }
@@ -150,4 +153,8 @@ char Scanner::advance()
     return source[current++]; 
 }
 
+bool Scanner::is_digit(char const& c)
+{
+    return c >= '0' && c <= '9'; 
+}
 
