@@ -18,16 +18,18 @@ Scanner::Scanner(std::string src) : source(src)
 
 std::vector<Token> Scanner::scan_source()
 {
-    for(auto iter = source.begin(); iter != source.end(); ++iter)
+    while(!at_end())
     {
-        scan_token(*iter); 
+        start = current; 
+        scan_token(); 
     }
     tokens.emplace_back(Token{TokenTypes::END,"",line}); 
     return tokens; 
 }
 
-void Scanner::scan_token(char c)
+void Scanner::scan_token()
 {
+    auto c = advance(); 
     switch(c)
     {
         case '(': add_token(TokenTypes::LEFT_PAREN); break;
@@ -48,7 +50,7 @@ void Scanner::scan_token(char c)
                     {
                         while(peek() != '\n' && at_end())
                         {
-                            std::next(iter); 
+                            advance(); 
                         }
                     }
                     else 
@@ -85,12 +87,13 @@ void Scanner::add_token(TokenTypes type, std::any literal)
     tokens.emplace_back(type,source.substr(start, current), literal, line); 
 }
 
-bool Scanner::match(char c)
+bool Scanner::match(const char& c)
 {
     if(at_end()) { return false; }
+
     if(source[current] != c ) { return false; }
 
-    current++; 
+    ++current; 
     return true; 
 }
 
@@ -142,5 +145,9 @@ void Scanner::is_an_identifier()
     add_token(TokenTypes::IDENTIFIER); 
 }
 
+char Scanner::advance()
+{
+    return source[current++]; 
+}
 
 

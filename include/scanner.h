@@ -12,7 +12,7 @@ class Scanner
         Scanner(std::string src); 
         
         std::vector<Token> scan_source();
-        void scan_token(char c);
+        void scan_token();
         
     private:
         std::string source; 
@@ -26,7 +26,7 @@ class Scanner
         // internal methods for scanning the source
         void add_token(TokenTypes type, std::any literal);
         void add_token(TokenTypes type); 
-        bool match(char c);
+        bool match(const char& c);
         bool at_end(); 
         char peek();
         void is_a_string(); 
@@ -34,7 +34,7 @@ class Scanner
         char peek_next();
         bool is_alpha_numeric(char c); 
         void is_an_identifier(); 
-
+        char advance(); 
 
 
 }; 
