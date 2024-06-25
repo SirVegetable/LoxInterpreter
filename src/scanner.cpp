@@ -2,6 +2,7 @@
 #include "../include/token.h"
 #include "../include/tokentypes.h"
 #include <any>
+#include <memory>
 #include <string>
 
 Scanner::Scanner(std::string src) : source(src)
@@ -68,6 +69,15 @@ void Scanner::scan_token()
             break;  
         case '"': is_a_string();  break; 
 
+        default: 
+            if(is_digit(c))
+            {
+                is_a_number(); 
+            }
+            else
+            {
+                /* Error here unexpected character, should report line as well*/
+            }
         
     }
 }
@@ -126,14 +136,14 @@ void Scanner::is_a_string()
 
 void Scanner::is_a_number()
 {
-    while(std::isdigit(peek())){ std::next(iter); }
+    while(std::isdigit(peek())){ advance(); }
     
-    if(peek() == '.' && std::isdigit(peek_next()))
+    if(peek() == '.' && is_digit(peek_next()))
     {
-        std::next(iter); 
-        while(std::isdigit(peek())){std::next(iter); } 
+        advance(); 
+        while(is_digit(peek())){advance(); } 
     }
-    add_token(TokenTypes::NUMBER, DOUBLE.parsedouble(src.substr(start,current))); 
+    add_token(TokenTypes::NUMBER, static_cast<double>(source.substr(start,current))); 
 }
 
 char Scanner::peek_next()
