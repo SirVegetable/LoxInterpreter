@@ -32,7 +32,7 @@ class Scanner
         void is_a_string(); 
         void is_a_number();
         char peek_next();
-        bool is_alpha_numeric(char c); 
+        bool is_alpha_numeric(const char& c); 
         void is_an_identifier(); 
         char advance(); 
         bool is_digit(const char& c); 

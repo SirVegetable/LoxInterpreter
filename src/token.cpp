@@ -1,4 +1,5 @@
 #include "../include/token.h"
+#include "../include/TokenTypes.h"
 #include <string>
 
 

@@ -1,6 +1,6 @@
 #include "../include/scanner.h"
 #include "../include/token.h"
-#include "../include/tokentypes.h"
+#include "../include/TokenTypes.h"
 #include <any>
 #include <memory>
 #include <string>
