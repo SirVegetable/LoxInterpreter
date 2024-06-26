@@ -4,6 +4,7 @@
 #include <any>
 #include <memory>
 #include <string>
+#include <iterator>
 
 Scanner::Scanner(std::string src) : source(src)
 {
@@ -12,9 +13,17 @@ Scanner::Scanner(std::string src) : source(src)
     keywords.emplace("else", TokenTypes::ELSE); 
     keywords.emplace("for", TokenTypes::FOR);
     keywords.emplace("if", TokenTypes::IF);
-
-
-
+    keywords.emplace("return", TokenTypes::RETURN);
+    keywords.emplace("print", TokenTypes::PRINT); 
+    keywords.emplace("fun", TokenTypes::FUN);
+    keywords.emplace("super", TokenTypes::SUPER);  
+    keywords.emplace("or", TokenTypes::OR); 
+    keywords.emplace("nil", TokenTypes::NIL); 
+    keywords.emplace("var", TokenTypes::VAR); 
+    keywords.emplace("while", TokenTypes::WHILE);
+    keywords.emplace("true", TokenTypes::TRUE);
+    keywords.emplace("false", TokenTypes::FALSE); 
+    keywords.emplace("this", TokenTypes::THIS); 
 }
 
 std::vector<Token> Scanner::scan_source()
@@ -166,7 +175,13 @@ void Scanner::is_an_identifier()
     {
         advance(); 
     } 
-    add_token(TokenTypes::IDENTIFIER); 
+    auto text = source.substr(start,current); 
+    auto type = keywords.find(text); 
+    if(type == keywords.end()) {add_token(TokenTypes::IDENTIFIER); }
+    else 
+    {
+        add_token(type->second); 
+    }
 }
 
 char Scanner::advance()
