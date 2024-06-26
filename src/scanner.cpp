@@ -74,11 +74,15 @@ void Scanner::scan_token()
             {
                 is_a_number(); 
             }
+            else if(is_alpha_numeric(c))
+            {
+                is_an_identifier();
+            }
             else
             {
                 /* Error here unexpected character, should report line as well*/
             }
-        
+            break;    
     }
 }
 
@@ -124,7 +128,11 @@ void Scanner::is_a_string()
         if(peek() == '\n'){line++;}
         advance(); 
     }
-    if(at_end()){/* error needs to be handled, show line occured at*/}
+    if(at_end())
+    {
+        /* error needs to be handled, show line occured at*/
+        return; 
+    }
    
     advance();
 
@@ -136,14 +144,14 @@ void Scanner::is_a_string()
 
 void Scanner::is_a_number()
 {
-    while(std::isdigit(peek())){ advance(); }
+    while(is_digit(peek())){ advance(); }
     
     if(peek() == '.' && is_digit(peek_next()))
     {
         advance(); 
         while(is_digit(peek())){advance(); } 
     }
-    add_token(TokenTypes::NUMBER, static_cast<double>(source.substr(start,current))); 
+    add_token(TokenTypes::NUMBER, std::stod(source.substr(start,current))); 
 }
 
 char Scanner::peek_next()
@@ -154,7 +162,10 @@ char Scanner::peek_next()
 
 void Scanner::is_an_identifier()
 {
-    while(is_alpha_numeric(peek())) std::next(iter); 
+    while(is_alpha_numeric(peek()))
+    {
+        advance(); 
+    } 
     add_token(TokenTypes::IDENTIFIER); 
 }
 
@@ -168,3 +179,7 @@ bool Scanner::is_digit(char const& c)
     return c >= '0' && c <= '9'; 
 }
 
+bool is_alpha_numeric(const char& c )
+{
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_'; 
+}
