@@ -23,15 +23,15 @@ class Token
     private:
 
         template<typename T>
-        std::string literal_to_string(const T& value)
+        std::string literal_to_string(T& value)
         {
             if(value == TokenTypes::NUMBER)
             {
-                return std::to_string(static_cast<int>(value)); 
+                return std::to_string(std::any_cast<std::string>(value)); 
             }
             else if(value == TokenTypes::STRING)
             {
-                return std::to_string(value); 
+                return std::any_cast<std::string>(value); 
             }
             else 
             {

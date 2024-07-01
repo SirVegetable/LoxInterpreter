@@ -9,10 +9,13 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-add_executable(runtests tests_main.cpp)
+add_executable(
+    runtests
+    scanner_tests.cpp
 
-target_link_libraries(runtests gtest gtest_main)
-
-target_include_directories(runtests PRIVATE ${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-
-add_test(NAME runtests COMMAND runtests)
+)
+target_link_libraries(
+    runtests
+    GTest::gtest_main
+    LOX
+)
